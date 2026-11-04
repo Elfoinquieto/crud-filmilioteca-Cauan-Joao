@@ -1,71 +1,44 @@
 @extends('layouts.main_layout')
 
 @section('content')
-<div class="container py-4">
-
- 
-    <div class="p-4 mb-4 rounded-3 text-dark fw-bold" style="background-color: #facc15;">
-        <h1 class="fw-black mb-1">BEM-VINDO!</h1>
-        <p class="mb-0">Gerencie sua biblioteca de livros e autores em um só lugar.</p>
-    </div>
-
-    <div class="row mb-5">
-        <div class="col-md-6 mb-3">
-            <div class="card bg-dark text-white border-secondary h-100">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4 class="card-title text-warning fw-bold mb-1">
-                            <i class="fa-solid fa-book me-2"></i>LIVROS
-                        </h4>
-                        <p class="text-secondary small mb-0">Ver e gerenciar todos os livros</p>
-                    </div>
-                    <a href="{{ route('listarLivros') }}" class="btn btn-warning fw-bold">
-                        ACESSAR
-                    </a>
-                </div>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <!-- Box de Boas-Vindas -->
+            <div class="card bg-dark text-white border-secondary shadow mb-5 p-4 text-center">
+                <h1 class="text-warning fw-bold display-5 mb-2">Filmilioteca</h1>
+                <p class="text-secondary fs-5 mb-0">
+                    Bem-vindo(a), <span class="text-white fw-bold">{{ auth()->user()->name ?? auth()->user()->username }}</span>! O que deseja gerenciar hoje?
+                </p>
             </div>
-        </div>
 
-        <div class="col-md-6 mb-3">
-            <div class="card bg-dark text-white border-secondary h-100">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <div>
-                        <h4 class="card-title text-warning fw-bold mb-1">
-                            <i class="fa-solid fa-user-pen me-2"></i>AUTORES
-                        </h4>
-                        <p class="text-secondary small mb-0">Ver e gerenciar todos os autores</p>
+            <!-- Seleção de Módulo -->
+            <div class="row g-4">
+                <!-- Módulo Livros -->
+                <div class="col-md-6">
+                    <div class="card bg-dark text-white border-secondary shadow h-100 p-4 text-center">
+                        <i class="fa-solid fa-book-open text-warning display-3 mb-3"></i>
+                        <h3 class="fw-bold text-white mb-2">Livros</h3>
+                        <p class="text-secondary small mb-4">Gerencie seus livros, autores cadastrados e acervo de leituras.</p>
+                        <a href="{{ route('centralLivros') }}" class="btn btn-warning fw-bold py-2 mt-auto">
+                            <i class="fa-solid fa-arrow-right me-1"></i> Acessar Livros
+                        </a>
                     </div>
-                    <a href="{{ route('listarAutores') }}" class="btn btn-warning fw-bold">
-                        ACESSAR
-                    </a>
+                </div>
+
+                <!-- Módulo Filmes -->
+                <div class="col-md-6">
+                    <div class="card bg-dark text-white border-secondary shadow h-100 p-4 text-center">
+                        <i class="fa-solid fa-film text-warning display-3 mb-3"></i>
+                        <h3 class="fw-bold text-white mb-2">Filmes</h3>
+                        <p class="text-secondary small mb-4">Gerencie sua coleção de filmes, diretores e elenco de atores.</p>
+                        <a href="{{ route('centralFilmes') }}" class="btn btn-warning fw-bold py-2 mt-auto">
+                            <i class="fa-solid fa-arrow-right me-1"></i> Acessar Filmes
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h3 class="text-warning fw-bold mb-0">ÚLTIMOS 4 LIVROS</h3>
-        <a href="{{ route('cadastroLivro') }}" class="btn btn-outline-warning btn-sm fw-bold">
-            <i class="fa-solid fa-plus me-1"></i> ADICIONAR LIVRO
-        </a>
-    </div>
-
-    <div class="row">
-        @forelse($latestBooks as $book)
-            <div class="col-md-3 col-sm-6 mb-4">
-                <x-book-card :book="$book" />
-            </div>
-        @empty
-            <div class="col-12">
-                <div class="alert alert-dark text-secondary text-center border-secondary py-4 mb-0">
-                    Nenhum livro cadastrado ainda. 
-                    <a href="{{ route('cadastroLivro') }}" class="text-warning fw-bold text-decoration-none">
-                        Cadastrar o primeiro livro
-                    </a>
-                </div>
-            </div>
-        @endforelse
-    </div>
-
 </div>
 @endsection

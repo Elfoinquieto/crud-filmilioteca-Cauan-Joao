@@ -15,6 +15,8 @@ class User extends Authenticatable
         'password',
     ];
 
+    // --- RELACIONAMENTOS DE LIVROS ---
+
     public function authors()
     {
         return $this->hasMany(Author::class);
@@ -25,5 +27,20 @@ class User extends Authenticatable
         return $this->hasMany(Book::class);
     }
 
-   
+    // --- RELACIONAMENTOS DE FILMES ---
+
+    public function movies()
+    {
+        return $this->hasMany(Movie::class);
+    }
+
+    public function directors()
+    {
+        return $this->hasMany(Director::class);
+    }
+
+    public function actors()
+    {
+        return $this->hasMany(Actor::class);
+    }
 }

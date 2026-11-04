@@ -14,7 +14,7 @@ class BookController extends Controller
     {
         $latestBooks = Auth::user()->books()->latest()->take(4)->get();
 
-        return view('home', [
+        return view('home_books', [
 
             'latestBooks' => $latestBooks
         ]);
