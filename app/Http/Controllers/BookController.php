@@ -13,11 +13,9 @@ class BookController extends Controller
     public function index()
     {
         $latestBooks = Auth::user()->books()->latest()->take(4)->get();
+        $authorsCount = Auth::user()->authors()->count();
 
-        return view('home_books', [
-
-            'latestBooks' => $latestBooks
-        ]);
+        return view('home_books', compact('latestBooks', 'authorsCount'));
     }
 
     public function listBooks()

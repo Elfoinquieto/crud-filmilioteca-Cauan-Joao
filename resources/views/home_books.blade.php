@@ -39,7 +39,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <span class="text-secondary small fw-bold d-block">AUTORES</span>
-                        <h3 class="text-warning fw-bold mb-0">{{ $authorsCount ?? Auth::user()->authors()->count() }}</h3>
+                        <h3 class="text-warning fw-bold mb-0">{{ $authorsCount }}</h3>
                     </div>
                     <i class="fa-solid fa-user-pen text-secondary display-6 opacity-50"></i>
                 </div>
@@ -64,11 +64,26 @@
         </a>
     </div>
 
-    @php
-        $recentBooks = $latestBooks ?? Auth::user()->books()->with('author')->latest()->take(6)->get();
-    @endphp
+    <div class="row">
+        @forelse($latestBooks as $book)
+            <div class="col-md-3 col-sm-6 mb-4">
+                <x-book-card :book="$book" />
+            </div>
+        @empty
+            <div class="card bg-dark text-white border-secondary shadow p-5 text-center my-4">
+                <i class="fa-solid fa-book-open text-secondary display-4 mb-3 opacity-50"></i>
+                <h5 class="text-secondary">Você ainda não possui nenhum livro cadastrado!</h5>
+                <p class="text-secondary small mb-3">Comece adicionando seu primeiro livro ao seu acervo.</p>
+                <div>
+                    <a href="{{ route('cadastroLivro') }}" class="btn btn-warning fw-bold px-4">
+                        <i class="fa-solid fa-plus me-1"></i> Cadastrar Livro
+                    </a>
+                </div>
+            </div>
+        @endforelse
+    </div>
 
-    @if($recentBooks->isEmpty())
+    @if($latestBooks->isEmpty())
         <div class="card bg-dark text-white border-secondary shadow p-5 text-center my-4">
             <i class="fa-solid fa-book-open text-secondary display-4 mb-3 opacity-50"></i>
             <h5 class="text-secondary">Você ainda não possui nenhum livro cadastrado!</h5>
@@ -81,7 +96,7 @@
         </div>
     @else
         <div class="row g-3">
-            @foreach($recentBooks as $book)
+            @foreach($latestBooks as $book)
                 <div class="col-md-4">
                     <div class="card bg-dark text-white border-secondary h-100 shadow-sm">
                         <div class="card-body p-3 d-flex flex-column justify-content-between">

@@ -11,11 +11,12 @@ class MovieController extends Controller
 {
     public function index()
     {
+        $latestMovies = Auth::user()->movies()->with(['director', 'actors'])->latest()->take(6)->get()
         $moviesCount = Auth::user()->movies()->count();
         $directorsCount = Auth::user()->directors()->count();
         $actorsCount = Auth::user()->actors()->count();
 
-        return view('home_movies', compact('moviesCount', 'directorsCount', 'actorsCount'));
+        return view('home_movies', compact('latestMovies', 'moviesCount', 'directorsCount', 'actorsCount'));
     }
 
     public function listMovies()

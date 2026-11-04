@@ -25,7 +25,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/autores/{id}', [AuthorController::class, 'showAuthor'])->name('detalhesAutor');
     Route::delete('/autores/deletar/{id}', [AuthorController::class, 'deletarAutor'])->name('deletarAutor');
 
-    // --- LIVROS ---
     Route::get('/livros/central', [BookController::class, 'index'])->name('centralLivros');
     Route::get('/livros', [BookController::class, 'listBooks'])->name('listarLivros');
     Route::get('/livros/cadastrar', [BookController::class, 'formBook'])->name('cadastroLivro');
@@ -38,7 +37,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/hardDelete-book/{id}', [BookController::class, 'hardDeleteBook'])->name('hardDelete');
     Route::get('/restore-book/{id}', [BookController::class, 'restoreBook'])->name('restore');
 
-    // --- FILMES ---
     Route::get('/filmes/central', [MovieController::class, 'index'])->name('centralFilmes');
     Route::get('/filmes', [MovieController::class, 'listMovies'])->name('listarFilmes');
     Route::get('/filmes/cadastrar', [MovieController::class, 'formMovie'])->name('cadastroFilme');
@@ -51,7 +49,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/hardDelete-movie/{id}', [MovieController::class, 'hardDeleteMovie'])->name('hardDeleteMovie');
     Route::get('/restore-movie/{id}', [MovieController::class, 'restoreMovie'])->name('restoreMovie');
 
-    // --- DIRETORES ---
     Route::get('/diretores', [DirectorController::class, 'listDirectors'])->name('listarDiretores');
     Route::get('/diretores/cadastrar', [DirectorController::class, 'formDirector'])->name('cadastroDiretor');
     Route::post('/diretores/salvar', [DirectorController::class, 'saveDirector'])->name('salvarDiretor');
@@ -59,7 +56,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/diretores/atualizar', [DirectorController::class, 'updateDirector'])->name('atualizarDiretor');
     Route::delete('/diretores/deletar/{id}', [DirectorController::class, 'deletarDiretor'])->name('deletarDiretor');
 
-    // --- ATORES ---
     Route::get('/atores', [ActorController::class, 'listActors'])->name('listarAtores');
     Route::get('/atores/cadastrar', [ActorController::class, 'formActor'])->name('cadastroAtor');
     Route::post('/atores/salvar', [ActorController::class, 'saveActor'])->name('salvarAtor');
