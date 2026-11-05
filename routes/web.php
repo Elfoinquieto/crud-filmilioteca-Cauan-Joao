@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/filmes/editar/{id}', [MovieController::class, 'editMovie'])->name('editarFilme');
     Route::put('/filmes/atualizar', [MovieController::class, 'updateMovie'])->name('atualizarFilme');
     Route::get('/filmes/{id}', [MovieController::class, 'showMovie'])->name('detalhesFilme');
-    Route::delete('/filmes/deletar/{id}', [MovieController::class, 'deletarFilme'])->name('deletarFilme');
+    Route::delete('/filmes/deletar/{id}', [MovieController::class, 'deletarMovie'])->name('deletarFilme');
     Route::get('/listDeletedMovies', [MovieController::class, 'listDeletedMovies'])->name('listDeletedMovies');
     Route::get('/hardDelete-movie/{id}', [MovieController::class, 'hardDeleteMovie'])->name('hardDeleteMovie');
     Route::get('/restore-movie/{id}', [MovieController::class, 'restoreMovie'])->name('restoreMovie');
@@ -54,12 +54,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/diretores/salvar', [DirectorController::class, 'saveDirector'])->name('salvarDiretor');
     Route::get('/diretores/editar/{id}', [DirectorController::class, 'editDirector'])->name('editarDiretor');
     Route::put('/diretores/atualizar', [DirectorController::class, 'updateDirector'])->name('atualizarDiretor');
-    Route::delete('/diretores/deletar/{id}', [DirectorController::class, 'deletarDiretor'])->name('deletarDiretor');
+    Route::get('/diretores/{id}', [DirectorController::class, 'showDirector'])->name('detalhesDiretor');
+    Route::delete('/diretores/deletar/{id}', [DirectorController::class, 'deletarDirector'])->name('deletarDiretor');
 
     Route::get('/atores', [ActorController::class, 'listActors'])->name('listarAtores');
     Route::get('/atores/cadastrar', [ActorController::class, 'formActor'])->name('cadastroAtor');
     Route::post('/atores/salvar', [ActorController::class, 'saveActor'])->name('salvarAtor');
     Route::get('/atores/editar/{id}', [ActorController::class, 'editActor'])->name('editarAtor');
     Route::put('/atores/atualizar', [ActorController::class, 'updateActor'])->name('atualizarAtor');
+    Route::get('/atores/{id}', [ActorController::class, 'showActor'])->name('detalhesAtor');
     Route::delete('/atores/deletar/{id}', [ActorController::class, 'deletarActor'])->name('deletarAtor');
 });

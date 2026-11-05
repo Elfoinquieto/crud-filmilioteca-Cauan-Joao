@@ -11,7 +11,7 @@ class MovieController extends Controller
 {
     public function index()
     {
-        $latestMovies = Auth::user()->movies()->with(['director', 'actors'])->latest()->take(6)->get()
+        $latestMovies = Auth::user()->movies()->with(['director', 'actors'])->latest()->take(6)->get();
         $moviesCount = Auth::user()->movies()->count();
         $directorsCount = Auth::user()->directors()->count();
         $actorsCount = Auth::user()->actors()->count();
@@ -61,7 +61,7 @@ class MovieController extends Controller
             $movie->actors()->sync($request->actors);
         }
 
-        return redirect()->route('listarFilmes')->with('success', 'Filme cadastrado com sucesso!');
+        return redirect()->route('centralFilmes')->with('success', 'Filme cadastrado com sucesso!');
     }
 
     public function editMovie($id)
@@ -100,7 +100,7 @@ class MovieController extends Controller
         // Atualiza a tabela pivot de atores
         $movie->actors()->sync($request->input('actors', []));
 
-        return redirect()->route('listarFilmes')->with('success', 'Filme atualizado com sucesso!');
+        return redirect()->route('centralFilmes')->with('success', 'Filme atualizado com sucesso!');
     }
 
     public function showMovie($id)
@@ -117,7 +117,7 @@ class MovieController extends Controller
         $movie = Auth::user()->movies()->findOrFail($decryptedId);
         $movie->delete();
 
-        return redirect()->route('listarFilmes')->with('success', 'Filme movido para a lixeira!');
+        return redirect()->route('centralFilmes')->with('success', 'Filme movido para a lixeira!');
     }
 
     public function listDeletedMovies()

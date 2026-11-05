@@ -64,6 +64,14 @@ class DirectorController extends Controller
         return redirect()->route('listarDiretores')->with('success', 'Diretor atualizado com sucesso!');
     }
 
+    public function showDirector($id)
+    {
+
+        $director = Auth::user()->directors()->findOrFail($id);
+
+        return view('directors.show', compact('director'));
+    }
+
     public function deletarDirector($id)
     {
         $decryptedId = Operations::decryptId($id);

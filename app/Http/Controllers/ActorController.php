@@ -64,6 +64,14 @@ class ActorController extends Controller
         return redirect()->route('listarAtores')->with('success', 'Ator/Atriz atualizado(a) com sucesso!');
     }
 
+    public function showActor($id)
+    {
+
+        $actor = Auth::user()->actors()->findOrFail($id);
+
+        return view('actors.show', compact('actor'));
+    }
+
     public function deletarActor($id)
     {
         $decryptedId = Operations::decryptId($id);

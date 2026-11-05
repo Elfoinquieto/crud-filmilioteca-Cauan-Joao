@@ -18,11 +18,9 @@
                 <x-author-card :author="$author" />
             </div>
         @empty
-            <div class="col-12">
-                <div class="alert alert-dark text-secondary text-center border-secondary py-5 mb-0">
-                    <i class="fa-solid fa-book-open fa-2x mb-3 text-warning"></i>
-                    <p class="mb-2">Nenhum autor encontrado.</p>
-                </div>
+            <div class="card bg-dark text-white border-secondary shadow p-5 text-center my-4">
+                <i class="fa-solid fa-book-open text-secondary display-4 mb-3 opacity-50"></i>
+                <h5 class="text-secondary">Você ainda não possui nenhum ator cadastrado!</h5>
             </div>
         @endforelse
     </div>
