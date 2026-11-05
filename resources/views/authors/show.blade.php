@@ -3,7 +3,7 @@
 @section('content')
 <div class="container py-4">
     <div class="mb-3">
-        <a href="{{ url()->previous() }}" class="btn btn-outline-secondary btn-sm text-white">
+        <a href="{{ route('listarAutores') }}" class="btn btn-outline-secondary btn-sm text-white">
             <i class="fa-solid fa-arrow-left me-1"></i> Voltar
         </a>
     </div>

@@ -8,9 +8,16 @@
             <h2 class="text-warning fw-bold mb-0">AUTORES</h2>
             <p class="text-secondary small mb-0">Autores cadastrados: </p>
         </div>
-        <a href="{{ route('cadastroAutor') }}" class="btn btn-warning fw-bold">
-            <i class="fa-solid fa-plus me-1"></i> ADICIONAR AUTOR
-        </a>
+        <div class="d-flex flex-column align-items-end gap-2">
+            <div>
+                <a href="{{ route('centralLivros') }}" class="btn btn-outline-secondary btn-sm text-white">
+                    <i class="fa-solid fa-arrow-left me-1"></i> Voltar
+                </a>
+            </div>
+            <a href="{{ route('cadastroAutor') }}" class="btn btn-warning fw-bold">
+                <i class="fa-solid fa-plus me-1"></i> ADICIONAR AUTOR
+            </a>
+        </div>
     </div>
     <div class="row">
         @forelse($authors as $author)

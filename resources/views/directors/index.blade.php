@@ -11,7 +11,7 @@
         
         <div class="d-flex flex-column align-items-end gap-2">
             <div>
-                <a href="{{ url()->previous() }}" class="btn btn-outline-secondary btn-sm text-white">
+                <a href="{{ route('centralFilmes') }}" class="btn btn-outline-secondary btn-sm text-white">
                     <i class="fa-solid fa-arrow-left me-1"></i> Voltar
                 </a>
             </div>
