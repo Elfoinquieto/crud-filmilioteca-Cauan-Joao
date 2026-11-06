@@ -12,7 +12,7 @@ class AuthorController extends Controller
 {
     public function listAuthors()
     {
-        $authors = Auth::user()->Authors;
+        $authors = Auth::user()->authors()->latest()->paginate(12);
         return view('Authors.index', ['authors' => $authors]);
     }
 

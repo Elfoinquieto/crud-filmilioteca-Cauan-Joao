@@ -10,7 +10,7 @@ class DirectorController extends Controller
 {
     public function listDirectors()
     {
-        $directors = Auth::user()->directors()->orderBy('name')->get();
+        $directors = Auth::user()->directors()->orderBy('name')->latest()->paginate(12);
         return view('directors.index', compact('directors'));
     }
 
