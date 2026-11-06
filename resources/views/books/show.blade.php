@@ -10,7 +10,15 @@
 
     <div class="row">
 
-        <div class="col-md-8 mb-4">
+        @if($book->capa)
+            <div class="col-md-3 mb-4">
+                <div class="card bg-dark text-white border-secondary shadow overflow-hidden">
+                    <img src="{{ asset('storage/' . $book->capa) }}" class="img-fluid w-100 rounded" alt="{{ $book->title }}" style="max-height: 420px; object-fit: cover;">
+                </div>
+            </div>
+        @endif
+
+        <div class="{{ $book->capa ? 'col-md-5' : 'col-md-8' }} mb-4">
             <div class="card bg-dark text-white border-secondary h-100 shadow">
                 <div class="card-body p-4">
                     <span class="badge bg-warning text-dark mb-2">{{ $book->genre ?? 'Gênero não informado' }}</span>
@@ -21,7 +29,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="col-md-4 mb-4">
             <div class="card bg-dark text-white border-secondary shadow mb-3">
@@ -39,7 +46,6 @@
                     </li>
                 </ul>
             </div>
-
 
             <div class="d-flex gap-2">
                 <a href="{{ route('editarLivro', $book->id) }}" class="btn btn-warning fw-bold flex-fill">

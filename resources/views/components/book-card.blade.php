@@ -1,6 +1,16 @@
 @props(['book'])
 
-<div class="card bg-dark text-white border-secondary h-100 shadow-sm">
+<div class="card bg-dark text-white border-secondary h-100 shadow-sm overflow-hidden">
+    @if($book->capa_thumbnail)
+        <a href="{{ route('detalhesLivro', $book->id) }}">
+            <img src="{{ asset('storage/' . $book->capa_thumbnail) }}" class="card-img-top" alt="{{ $book->title }}" style="height: 200px; object-fit: cover;">
+        </a>
+    @else
+        <div class="bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center" style="height: 140px;">
+            <i class="fa-solid fa-book text-secondary display-5 opacity-25"></i>
+        </div>
+    @endif
+
     <div class="card-body p-3">
         <div class="d-flex justify-content-between align-items-start mb-2">
             <a href="{{ route('detalhesLivro', $book->id) }}" class="text-warning text-decoration-none fw-bold h5 mb-0 text-truncate me-2" title="{{ $book->title }}">

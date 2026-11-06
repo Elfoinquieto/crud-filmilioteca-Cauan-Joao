@@ -6,7 +6,11 @@ use App\Models\Book;
 use App\Services\Operations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Intervention\Image\Format;
 
 class BookController extends Controller
 {
@@ -38,6 +42,7 @@ class BookController extends Controller
             'isbn' => 'required|string|max:13',
             'genre' => ['required', Rule::in(Book::GENRES)],
             'description' => 'required|max:2000',
+            'capa' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ], [
             'title.required' => 'O título do livro é obrigatório.',
             'title.min' => 'O título deve ter pelo menos :min caracteres.',
@@ -49,6 +54,9 @@ class BookController extends Controller
             'genre.in' => 'Selecione um gênero válido da lista.',
             'description.required' => 'A descrição do livro é obrigatório.',
             'description.max' => 'A descrição não pode ultrapassar :max caracteres.',
+            'capa.image' => 'O arquivo enviado deve ser uma imagem.',
+            'capa.mimes' => 'A imagem deve estar no formato: jpeg, png, jpg ou webp.',
+            'capa.max' => 'A capa não pode ser maior que 2MB.',
         ]);
 
         $book = new Book();
@@ -58,6 +66,22 @@ class BookController extends Controller
         $book->isbn = $request->isbn;
         $book->genre = $request->genre;
         $book->description = $request->description;
+
+        if ($request->hasFile('capa')) {
+            $capa = $request->file('capa');
+            $caminhoOriginal = $capa->storePublicly('capas', 'public');
+
+            $nomeWebp = pathinfo($capa->hashName(), PATHINFO_FILENAME) . '.webp';
+            $caminhoThumbnail = 'capas/thumbs/' . $nomeWebp;
+
+            
+            $manager = ImageManager::usingDriver(GdDriver::class);
+            $imagemThumb = $manager->decode($capa)->cover(300, 400)->encodeUsingFormat(Format::WEBP);
+            Storage::disk('public')->put($caminhoThumbnail, (string) $imagemThumb);
+
+            $book->capa = $caminhoOriginal;
+            $book->capa_thumbnail = $caminhoThumbnail;
+        }
 
         $book->save();
 
@@ -82,6 +106,7 @@ class BookController extends Controller
             'isbn' => 'required|string|max:13',
             'genre' => ['required', Rule::in(Book::GENRES)],
             'description' => 'required|max:2000',
+            'capa' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ], [
             'title.required' => 'O título do livro é obrigatório.',
             'title.min' => 'O título deve ter pelo menos :min caracteres.',
@@ -93,23 +118,50 @@ class BookController extends Controller
             'genre.in' => 'Selecione um gênero válido da lista.',
             'description.required' => 'A descrição do livro é obrigatório.',
             'description.max' => 'A descrição não pode ultrapassar :max caracteres.',
+            'capa.image' => 'O arquivo enviado deve ser uma imagem.',
+            'capa.mimes' => 'A imagem deve estar no formato: jpeg, png, jpg ou webp.',
+            'capa.max' => 'A capa não pode ser maior que 2MB.',
         ]);
 
         $id = Operations::decryptId($request->book_id);
-
         $book = Auth::user()->books()->find($id);
 
         if (!$book) {
             return redirect()->route('home')->with('error', 'Livro não encontrado.');
         }
 
-        $book->update([
+        $dadosAtualizacao = [
             'title' => $request->title,
             'author_id' => $request->author_id,
             'isbn' => $request->isbn,
             'genre' => $request->genre,
             'description' => $request->description,
-        ]);
+        ];
+
+        if ($request->hasFile('capa')) {
+            if ($book->capa && Storage::disk('public')->exists($book->capa)) {
+                Storage::disk('public')->delete($book->capa);
+            }
+            if ($book->capa_thumbnail && Storage::disk('public')->exists($book->capa_thumbnail)) {
+                Storage::disk('public')->delete($book->capa_thumbnail);
+            }
+
+            $capa = $request->file('capa');
+            $caminhoOriginal = $capa->storePublicly('capas', 'public');
+
+            $nomeWebp = pathinfo($capa->hashName(), PATHINFO_FILENAME) . '.webp';
+            $caminhoThumbnail = 'capas/thumbs/' . $nomeWebp;
+
+            // Sintaxe do Intervention Image v4
+            $manager = ImageManager::usingDriver(GdDriver::class);
+            $imagemThumb = $manager->decode($capa)->cover(300, 400)->encodeUsingFormat(Format::WEBP);
+            Storage::disk('public')->put($caminhoThumbnail, (string) $imagemThumb);
+
+            $dadosAtualizacao['capa'] = $caminhoOriginal;
+            $dadosAtualizacao['capa_thumbnail'] = $caminhoThumbnail;
+        }
+
+        $book->update($dadosAtualizacao);
 
         return redirect()->route('home')->with('success', 'Livro atualizado com sucesso!');
     }
@@ -146,6 +198,14 @@ class BookController extends Controller
         if (!$book) {
             return redirect()->route('home');
         }
+
+        if ($book->capa && Storage::disk('public')->exists($book->capa)) {
+            Storage::disk('public')->delete($book->capa);
+        }
+        if ($book->capa_thumbnail && Storage::disk('public')->exists($book->capa_thumbnail)) {
+            Storage::disk('public')->delete($book->capa_thumbnail);
+        }
+
         $book->forceDelete();
         return redirect()->route('home');
     }

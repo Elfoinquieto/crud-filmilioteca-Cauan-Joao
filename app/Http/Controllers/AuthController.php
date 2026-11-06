@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-
     public function index()
     {
         return view('home');
@@ -21,12 +20,12 @@ class AuthController extends Controller
     public function loginSubmit(Request $request)
     {
         $request->validate([
-            'text_username' => 'required|min:3',
+            'text_username' => 'required|min:3|alpha_num',
             'text_password' => 'required|min:6',
         ], [
-            'text_username.required' => 'O campo e-mail é obrigatório.',
-            'text_username.email' => 'O campo de e-mail deve conter um endereço válido.',
-            'text_username.min' => 'O campo e-mail deve ter no mínimo 3 caracteres.',
+            'text_username.required' => 'O campo usuário é obrigatório.',
+            'text_username.min' => 'O campo usuário deve ter no mínimo 3 caracteres.',
+            'text_username.alpha_num' => 'O nome de usuário não pode conter espaços ou caracteres especiais.',
             'text_password.required' => 'O campo password é obrigatório.',
             'text_password.min' => 'O campo password deve ter no mínimo 6 caracteres.',
         ]);
@@ -51,7 +50,6 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        // Desloga o usuário e limpa a sessão padrão do Laravel
         Auth::logout();
 
         $request->session()->invalidate();

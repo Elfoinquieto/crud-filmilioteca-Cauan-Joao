@@ -18,8 +18,7 @@
                     </div>
                 </div>
 
-
-                <form action="{{ isset($book) ? route('atualizarLivro') : route('salvarLivro') }}" method="post">
+                <form action="{{ isset($book) ? route('atualizarLivro') : route('salvarLivro') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @if(isset($book))
                         @method('PUT')
@@ -33,6 +32,20 @@
                         @error('title')
                             <div class="text-danger small">{{ $message }}</div>
                         @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label text-light">Imagem da Capa</label>
+                        <input type="file" class="form-control bg-dark text-white border-secondary" name="capa" accept="image/*">
+                        @error('capa')
+                            <div class="text-danger small">{{ $message }}</div>
+                        @enderror
+                        @if(isset($book) && $book->capa_thumbnail)
+                            <div class="mt-2 d-flex align-items-center gap-2">
+                                <small class="text-secondary">Capa atual:</small>
+                                <img src="{{ asset('storage/' . $book->capa_thumbnail) }}" alt="Capa Atual" class="rounded border border-secondary" style="height: 60px; object-fit: cover;">
+                            </div>
+                        @endif
                     </div>
 
                     <div class="mb-3">

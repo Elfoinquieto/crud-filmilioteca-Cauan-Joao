@@ -15,6 +15,8 @@ class Book extends Model
         'isbn',
         'genre',
         'description',
+        'capa',
+        'capa_thumbnail',
     ];
 
     public const GENRES = [
@@ -34,7 +36,7 @@ class Book extends Model
         return $this->belongsTo(Author::class);
     }
 
-     public function user()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
