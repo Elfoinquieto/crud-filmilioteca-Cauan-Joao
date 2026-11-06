@@ -10,7 +10,7 @@ class ActorController extends Controller
 {
     public function listActors()
     {
-        $actors = Auth::user()->actors()->orderBy('name')->get();
+        $actors = Auth::user()->actors()->with('movies')->latest()->paginate(12);
         return view('actors.index', compact('actors'));
     }
 

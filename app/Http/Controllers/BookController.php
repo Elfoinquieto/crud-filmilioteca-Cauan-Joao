@@ -20,7 +20,7 @@ class BookController extends Controller
 
     public function listBooks()
     {
-        $books = Auth::user()->books;
+        $books = Auth::user()->books()->latest()->paginate(12);
         return view('books.index', ['books' => $books]);
     }
 

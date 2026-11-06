@@ -34,5 +34,10 @@
         @endforelse
     </div>
 
+    <!-- Paginação -->
+    <div class="d-flex justify-content-center mt-4" data-bs-theme="dark">
+        {{ $directors->links() }}
+    </div>
+
 </div>
 @endsection

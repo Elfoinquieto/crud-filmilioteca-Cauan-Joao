@@ -21,7 +21,7 @@ class MovieController extends Controller
 
     public function listMovies()
     {
-        $movies = Auth::user()->movies()->with(['director', 'actors'])->latest()->get();
+        $movies = Auth::user()->movies()->with(['director', 'actors'])->latest()->paginate(12);
         return view('movies.index', compact('movies'));
     }
 
