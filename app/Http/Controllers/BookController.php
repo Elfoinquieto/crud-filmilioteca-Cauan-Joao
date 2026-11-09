@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Gd\Driver as GdDriver;
-use Intervention\Image\Format;
 
 class BookController extends Controller
 {
@@ -74,9 +72,8 @@ class BookController extends Controller
             $nomeWebp = pathinfo($capa->hashName(), PATHINFO_FILENAME) . '.webp';
             $caminhoThumbnail = 'capas/thumbs/' . $nomeWebp;
 
-            
-            $manager = ImageManager::usingDriver(GdDriver::class);
-            $imagemThumb = $manager->decode($capa)->cover(300, 400)->encodeUsingFormat(Format::WEBP);
+            $manager = ImageManager::gd();
+            $imagemThumb = $manager->read($capa)->cover(300, 400)->toWebp();
             Storage::disk('public')->put($caminhoThumbnail, (string) $imagemThumb);
 
             $book->capa = $caminhoOriginal;
@@ -152,9 +149,9 @@ class BookController extends Controller
             $nomeWebp = pathinfo($capa->hashName(), PATHINFO_FILENAME) . '.webp';
             $caminhoThumbnail = 'capas/thumbs/' . $nomeWebp;
 
-            // Sintaxe do Intervention Image v4
-            $manager = ImageManager::usingDriver(GdDriver::class);
-            $imagemThumb = $manager->decode($capa)->cover(300, 400)->encodeUsingFormat(Format::WEBP);
+            // Sintaxe compatível com Intervention Image v3
+            $manager = ImageManager::gd();
+            $imagemThumb = $manager->read($capa)->cover(300, 400)->toWebp();
             Storage::disk('public')->put($caminhoThumbnail, (string) $imagemThumb);
 
             $dadosAtualizacao['capa'] = $caminhoOriginal;

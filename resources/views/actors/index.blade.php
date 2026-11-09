@@ -35,7 +35,7 @@
     </div>
 
     <!-- Paginação -->
-    <div class="d-flex justify-content-center mt-4">
+    <div class="d-flex justify-content-center mt-4" data-bs-theme="dark">
         {{ $actors->links() }}
     </div>
 

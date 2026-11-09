@@ -66,8 +66,8 @@ class ActorController extends Controller
 
     public function showActor($id)
     {
-
-        $actor = Auth::user()->actors()->findOrFail($id);
+        $decryptedId = Operations::decryptId($id);
+        $actor = Auth::user()->actors()->findOrFail($decryptedId);
 
         return view('actors.show', compact('actor'));
     }

@@ -6,6 +6,7 @@
             <a href="{{ route('detalhesAtor', \App\Services\Operations::encryptId($actor->id)) }}" class="text-warning text-decoration-none fw-bold h5 mb-0 text-truncate me-2" title="{{ $actor->name }}">
                 {{ $actor->name }}
             </a>
+            
             <div class="d-flex gap-1">
                 <a href="{{ route('editarAtor', ['id' => \App\Services\Operations::encryptId($actor->id)]) }}" class="btn btn-sm btn-outline-warning px-2 py-0" title="Editar">
                     <i class="fa-solid fa-pen-to-square"></i>

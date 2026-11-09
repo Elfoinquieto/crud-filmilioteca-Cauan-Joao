@@ -19,6 +19,9 @@ class AuthController extends Controller
 
     public function loginSubmit(Request $request)
     {
+        $usernameSanitized = str_replace(' ', '', $request->input('text_username'));
+        $request->merge(['text_username' => $usernameSanitized]);
+        
         $request->validate([
             'text_username' => 'required|min:3|alpha_num',
             'text_password' => 'required|min:6',

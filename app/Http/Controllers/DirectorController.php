@@ -66,8 +66,8 @@ class DirectorController extends Controller
 
     public function showDirector($id)
     {
-
-        $director = Auth::user()->directors()->findOrFail($id);
+        $decryptedId = Operations::decryptId($id);
+        $director = Auth::user()->directors()->findOrFail($decryptedId);
 
         return view('directors.show', compact('director'));
     }
